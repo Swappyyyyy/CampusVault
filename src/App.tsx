@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useId, useRef } from 'react';
+import { supabase } from './supabaseClient';
 import {
   GraduationCap,
   Search,
