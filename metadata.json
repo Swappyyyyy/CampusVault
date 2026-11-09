@@ -1,0 +1,6 @@
+{
+  "name": "CampusBarter",
+  "description": "Peer-to-peer campus marketplace for verified college students to trade, sell, and donate textbooks, electronics, drafters, and lab gear.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
