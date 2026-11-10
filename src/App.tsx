@@ -180,6 +180,32 @@ export default function App() {
     }
   }, []);
 
+  const handleRealAuth = async (isSignUp: boolean) => {
+    setAuthError('');
+
+    // Enforce strict SISTec domain check
+    if (!email.toLowerCase().endsWith('@sistec.ac.in')) {
+      setAuthError('Access restricted! Please use your official college email ending with @sistec.ac.in.');
+      return;
+    }
+
+    if (isSignUp) {
+      const { data, error } = await supabase.auth.signUp({ email, password });
+      if (error) {
+        setAuthError(error.message);
+      } else {
+        alert('Account created successfully! Check your inbox to confirm your email.');
+      }
+    } else {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        setAuthError(error.message);
+      } else {
+        console.log('Logged in user:', data.user);
+      }
+    }
+  };
+
   // Listen for Escape key to close modals & drawers
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
