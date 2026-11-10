@@ -205,7 +205,38 @@ export default function App() {
       }
     }
   };
+// --- STEP 6: FETCH LIVE DATA FROM SUPABASE ---
+  useEffect(() => {
+    if (currentUserEmail) {
+      fetchMarketplaceData();
+    }
+  }, [currentUserEmail]);
 
+  const fetchMarketplaceData = async () => {
+    // 1. Fetch live Marketplace Items from Supabase
+    const { data: fetchedItems, error: itemError } = await supabase
+      .from('items')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (itemError) {
+      console.error('Error fetching items:', itemError.message);
+    } else if (fetchedItems && fetchedItems.length > 0) {
+      setItems(fetchedItems); // Overrides mock INITIAL_ITEMS with live data
+    }
+
+    // 2. Fetch live ISO Requests from Supabase
+    const { data: fetchedIso, error: isoError } = await supabase
+      .from('iso_requests')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (isoError) {
+      console.error('Error fetching ISO requests:', isoError.message);
+    } else if (fetchedIso && fetchedIso.length > 0) {
+      setIsoRequests(fetchedIso); // Overrides mock INITIAL ISO requests with live data
+    }
+  };
   // Listen for Escape key to close modals & drawers
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
